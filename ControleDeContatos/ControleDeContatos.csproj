@@ -6,4 +6,15 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Views\Contato\ApagarComparacao.cshtml.cs" />
+    <Compile Remove="Views\Contato\ApagarConfirmacao.cs" />
+    <Compile Remove="Views\Contato\ApagarConfirmacao.cshtml.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="Views\Contato\Apagar.cshtml" />
+    <Content Remove="Views\Contato\ApagarComparacao.cshtml" />
+  </ItemGroup>
+
 </Project>
