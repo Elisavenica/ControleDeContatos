@@ -1,4 +1,5 @@
-﻿@{
+﻿@model List<ContatoModel>
+@{
     ViewData["Title"] = "Listagem de Contatos";
 }
 
@@ -34,7 +35,7 @@
                 <td class="text-center">
                     <div class="btn-group" role="group">
                         <a class="btn btn-sm btn-primary" asp-controller="Contato" asp-action="Editar">Editar</a>
-                        <a class="btn btn-sm btn-danger" asp-controller="Contato" asp-action="ApagarConfirmacao" ">Apagar</a>
+                        <a class="btn btn-sm btn-danger" asp-controller="Contato" asp-action="ApagarConfirmacao">Apagar</a>
                     </div>
                 </td>
             </tr>
@@ -64,7 +65,26 @@
                     </div>
                 </td>
             </tr>
+            @if (Model != null && Model.Any())
+            {
+                foreach (ContatoModel contato in Model)
+                {
+                    <tr>
+                        <th scope="row">@contato.Id</th>
+                        <td>@contato.Nome</td>
+                        <td>@contato.Email</td>
+                        <td>@contato.Celular</td>
+                        <td
+                            class="text-center">
+                            <div class="btn-group" role="group">
+                                <a role="button" class="btn  btn-primary" asp-route-id="@contato.Id" asp-controller="Contato" asp-action="Editar">Editar</a>
+                                <a role="button" class="btn b btn-danger" asp-route-id="@contato.Id" asp-controller="Contato" asp-action="ApagarConfirmacao">Apagar</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
+
         </tbody>
     </table>
-
 </div>
