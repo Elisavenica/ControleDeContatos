@@ -1,46 +1,73 @@
 ﻿using ControleDeContatos.Data;
 using ControleDeContatos.Models;
-
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ControleDeContatos.Repositorio
 {
     public class ContatoRepositorio : IContatoRepositorio
     {
-        private readonly BancoContext _Context;
+        private readonly BancoContext _context;
 
         public ContatoRepositorio(BancoContext bancoContext)
         {
-            this._Context = bancoContext;
+            _context = bancoContext;
         }
 
         public ContatoModel ListarPorId(int id)
         {
-            return _Context.Contatos.FirstOrDefault(x => x.Id == id);
+            return _context.Contatos.FirstOrDefault(x => x.Id == id);
         }
+
         public List<ContatoModel> BuscarTodos()
         {
-               return _Context.Contatos .ToList();  
+            return _context.Contatos.ToList();
         }
+
         public ContatoModel Adicionar(ContatoModel contato)
         {
-            _Context.Contatos.Add(contato);
-            _Context.SaveChanges();
+            _context.Contatos.Add(contato);
+            _context.SaveChanges();
             return contato;
         }
 
         public ContatoModel Atualizar(ContatoModel contato)
         {
             ContatoModel contatoDB = ListarPorId(contato.Id);
-            if (contatoDB == null) throw new System.Exception("Houve um erro na atualização do contato!");
 
+            if (contatoDB == null)
+                throw new System.Exception("Houve um erro na atualização do contato!");
+
+            // Dados pessoais
             contatoDB.Nome = contato.Nome;
             contatoDB.Email = contato.Email;
             contatoDB.Celular = contato.Celular;
 
-            _Context.Contatos.Update(contatoDB);
-            _Context.SaveChanges();
+            // Endereço
+            contatoDB.Rua = contato.Rua;
+            contatoDB.Numero = contato.Numero;
+            contatoDB.Bairro = contato.Bairro;
+            contatoDB.Cidade = contato.Cidade;
+            contatoDB.Estado = contato.Estado;
+            contatoDB.Cep = contato.Cep;
+
+            _context.Contatos.Update(contatoDB);
+            _context.SaveChanges();
 
             return contatoDB;
+        }
+
+        public bool Apagar(int id)
+        {
+            ContatoModel contatoDB = ListarPorId(id);
+
+            if (contatoDB == null)
+                throw new System.Exception("Houve um erro ao apagar o contato!");
+
+            _context.Contatos.Remove(contatoDB);
+            _context.SaveChanges();
+
+            return true;
         }
     }
 }
