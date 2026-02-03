@@ -16,7 +16,7 @@
     @if(TempData["MensagemSucesso"] != null)
     {
         <div class="alert alert-success" role="alert">
-            <button type="button" class="btn btn-danger btn-sm close-alert" arial-label="Close">X</button>
+            <button type="button" class="btn btn-danger btn-sm close-alert" aria-label="Close">X</button>
             @TempData["MensagemSucesso"]
         </div>
 
@@ -25,7 +25,7 @@
     @if(TempData["MensagemErro"] != null)
     {
         <div class="alert alert-danger" role="alert">
-            <button type="button" class="btn btn-danger btn-sm close-alert" arial-label="close">X</button>
+            <button type="button" class="btn btn-danger btn-sm close-alert" aria-label="close">X</button>
             @TempData["MensagemErro"]
         </div>
        
@@ -41,20 +41,19 @@
     <table class="table" id="table-Usuarios">
         <thead>
             <tr>
-                <th> scope="col">#</th>
-                <th> scope="Nome</th>
-                <th> scope="Login</th>
-                <th> scope="E-mail</th>
-                <th> scope="DataCadastro</th>
-                <th> scope="Celular</th>
-                <th> scope="Rua</th>
-                <th> scope="Nº</th>
-                <th> scope="Bairro</th>
-                <th> scope="Cidade</th>
-                <th> scope="Estado</th>
-                <th> scope="CEP</th>
-                <th> scope="col</th>
-                <th  class="text-center">Ações</th>
+                <th scope="col">#</th>
+                <th scope="col">Nome</th>
+                <th scope="col">Login</th>
+                <th scope="col">E-mail</th>
+                <th scope="col">Data de cadastro</th>
+                <th scope="col">Celular</th>
+                <th scope="col">Rua</th>
+                <th scope="col">Nº</th>
+                <th scope="col">Bairro</th>
+                <th scope="col">Cidade</th>
+                <th scope="col">Estado</th>
+                <th scope="col">CEP</th>
+                <th scope="col" class="text-center">Ações</th>
             </tr>
         </thead>
 
