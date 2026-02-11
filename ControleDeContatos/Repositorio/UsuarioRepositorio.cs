@@ -1,79 +1,75 @@
 ﻿using ControleDeContatos.Data;
 using ControleDeContatos.Models;
+using ControleDeContatos.Repositorio;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
-namespace ControleDeContatos.Repositorio
+public class UsuarioRepositorio : IUsuarioRepositorio
 {
-    public class UsuarioRepositorio : IUsuarioRepositorio
+    private readonly BancoContext _context;
+
+    public UsuarioRepositorio(BancoContext bancoContext)
     {
-        private readonly BancoContext _context;
+        _context = bancoContext;
+    }
 
-        public UsuarioRepositorio(BancoContext bancoContext)
-        {
-            _context = bancoContext;
-        }
+    public UsuarioModel BuscarPorId(int id)
+    {
+        return _context.Usuarios.FirstOrDefault(x => x.Id == id);
+    }
 
-        public UsuarioModel ListarPorId(int id)
-        {
-            return _context.Usuarios.FirstOrDefault(x => x.Id == id);
-        }
+    public List<UsuarioModel> BuscarTodos()
+    {
+        return _context.Usuarios.ToList();
+    }
 
-        public List<UsuarioModel> BuscarTodos()
-        {
-            return _context.Usuarios.ToList();
-        }
+    public UsuarioModel Adicionar(UsuarioModel usuario)
+    {
+        usuario.DataCadastro = DateTime.Now;
+        usuario.DataAtualizacao = DateTime.Now;
 
-        public UsuarioModel Adicionar(UsuarioModel usuario)
-        {
-            if (usuario == null)
-                throw new Exception("Os dados do usuário não podem ser nulos.");
+        _context.Usuarios.Add(usuario);
+        _context.SaveChanges();
 
-            usuario.DataCadastro = DateTime.Now;
-            _context.Usuarios.Add(usuario);
-            _context.SaveChanges();
+        return usuario;
+    }
 
-            return usuario;
-        }
+    public UsuarioModel Atualizar(UsuarioModel usuario)
+    {
+        UsuarioModel usuarioDB = BuscarPorId(usuario.Id);
 
-        public UsuarioModel Atualizar(UsuarioModel usuario)
-        {
-            if (usuario == null)
-                throw new Exception("Os dados do usuário não podem ser nulos.");
+        if (usuarioDB == null)
+            throw new Exception("Usuário não encontrado.");
 
-            UsuarioModel usuarioDB = ListarPorId(usuario.Id);
+        usuarioDB.Nome = usuario.Nome;
+        usuarioDB.Email = usuario.Email;
+        usuarioDB.Login = usuario.Login;
+        usuarioDB.Perfil = usuario.Perfil;
+        usuarioDB.DataAtualizacao = DateTime.Now;
 
-            if (usuarioDB == null)
-                throw new Exception("Houve um erro na atualização do usuário.");
+        _context.Usuarios.Update(usuarioDB);
+        _context.SaveChanges();
 
-            usuarioDB.Nome = usuario.Nome;
-            usuarioDB.Email = usuario.Email;
-            usuarioDB.Celular = usuario.Celular;
-            usuarioDB.Perfil = usuario.Perfil;
-            usuarioDB.DataAtualizacao = DateTime.Now;
+        return usuarioDB;
+    }
 
-            usuarioDB.Rua = usuario.Rua;
-            usuarioDB.Numero = usuario.Numero;
-            usuarioDB.Bairro = usuario.Bairro;
-            usuarioDB.Cidade = usuario.Cidade;
-            usuarioDB.Estado = usuario.Estado;
-            usuarioDB.Cep = usuario.Cep;
+    public UsuarioModel Apagar(int id)
+    {
+        UsuarioModel usuarioDB = BuscarPorId(id);
 
-            _context.Usuarios.Update(usuarioDB);
-            _context.SaveChanges();
+        if (usuarioDB == null)
+            throw new Exception("Usuário não encontrado.");
 
-            return usuarioDB;
-        }
+        _context.Usuarios.Remove(usuarioDB);
+        _context.SaveChanges();
 
-        public bool Apagar(int id)
-        {
-            UsuarioModel usuarioDB = ListarPorId(id);
+        return usuarioDB;
+    }
 
-            if (usuarioDB == null)
-                throw new Exception("Houve um erro ao tentar deletar usuário.");
-
-            _context.Usuarios.Remove(usuarioDB);
-            _context.SaveChanges();
-
-            return true;
-        }
+    public UsuarioModel BuscarPorId(object id)
+    {
+        throw new NotImplementedException();
     }
 }
+

@@ -1,56 +1,49 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Controle De Contatos</title>
-    <script type="importmap"></script>
+
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/ControleDeContatos.styles.css" asp-append-version="true" />
-    <link href="https://cdn.datatables.net/v/dt/dt-2.3.6/datatables.min.css" rel="stylesheet" integrity="sha384-kl/GL6Bf/pDfgmgFKZ4XzwANesvO6EBSlfZFyztPhoFTDcL7H8rdOAYRXwGyOfCK" crossorigin="anonymous">
-
 </head>
+
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Controle De Contatos</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Página Inicial</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Contato" asp-action="Index">Contatos</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Usuario" asp-action="Index">Usuários</a>
-                        </li>
-                    </ul>
-                </div>
+    <div class="layout">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <h5>Controle De Contatos</h5>
             </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+
+            <nav class="nav flex-column">
+                <a class="nav-link" asp-controller="Home" asp-action="Index">🏠 Início</a>
+                <a class="nav-link" asp-controller="Contato" asp-action="Index">📇 Contatos</a>
+                <a class="nav-link" asp-controller="Usuario" asp-action="Index">👤 Usuários</a>
+            </nav>
+        </aside>
+
+        <!-- Conteúdo principal -->
+        <div class="main-content">
+
+            <!-- Navbar superior -->
+            <header class="topbar">
+                <div class="container-fluid">
+                    <span class="user">Olá, Elisa 👋</span>
+                </div>
+            </header>
+
+            <main class="content-area container-fluid">
+                @RenderBody()
+            </main>
+
+        </div>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2025 - Controle De Contatos
-        </div>
-    </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.datatables.net/v/dt/dt-2.3.6/datatables.min.js" integrity="sha384-18AyDs6cawP/DD9zgSqUrUeo+moSbSkFr4pe43ttGuiPDGYQitDsvTjtrDnVzrZg" crossorigin="anonymous"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

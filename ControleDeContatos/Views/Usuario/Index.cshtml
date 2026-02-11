@@ -3,57 +3,51 @@
     ViewData["Title"] = "Listagem de Usuários";
 }
 
-<div class="container mt-4">
+<div class="text-center">
 
-    <!-- Botão Adicionar -->
-    <a class="btn btn-primary mb-3"
-       asp-controller="Usuario"
-       asp-action="Criar">
-        Adicionar novo Usuario
-    </a>
+    <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+        <a class="btn btn-primary"
+           asp-controller="Usuario"
+           asp-action="Criar"
+           role="button">
+            Adicionar novo usuário
+        </a>
+    </div>
 
+    <br />
 
-    @if(TempData["MensagemSucesso"] != null)
+    @if (TempData["MensagemSucesso"] != null)
     {
         <div class="alert alert-success" role="alert">
-            <button type="button" class="btn btn-danger btn-sm close-alert" aria-label="Close">X</button>
+            <button type="button" class="btn btn-danger btn-sm close-alert">X</button>
             @TempData["MensagemSucesso"]
         </div>
-
     }
 
-    @if(TempData["MensagemErro"] != null)
+    @if (TempData["MensagemErro"] != null)
     {
         <div class="alert alert-danger" role="alert">
-            <button type="button" class="btn btn-danger btn-sm close-alert" aria-label="close">X</button>
+            <button type="button" class="btn btn-danger btn-sm close-alert">X</button>
             @TempData["MensagemErro"]
         </div>
-       
     }
 
     <br />
 
-    
-    <!-- Título -->
-    <h1 class="display-4 text-center mb-4">Listagem de Usuarios</h1>
+    <h1 class="display-4 text-center mb-4">Listagem de Usuários</h1>
 
-    <!-- Tabela -->
     <table class="table" id="table-Usuarios">
         <thead>
             <tr>
-                <th scope="col">#</th>
-                <th scope="col">Nome</th>
-                <th scope="col">Login</th>
-                <th scope="col">E-mail</th>
-                <th scope="col">Data de cadastro</th>
-                <th scope="col">Celular</th>
-                <th scope="col">Rua</th>
-                <th scope="col">Nº</th>
-                <th scope="col">Bairro</th>
-                <th scope="col">Cidade</th>
-                <th scope="col">Estado</th>
-                <th scope="col">CEP</th>
-                <th scope="col" class="text-center">Ações</th>
+                <th>#</th>
+                <th>Nome</th>
+                <th>E-mail</th>
+                <th>Login</th>
+                <th>Perfil</th>
+                <th>Senha</th>
+                <th>Data Cadastro</th>
+                <th>Data Atualização</th>
+                <th class="text-center">Ações</th>
             </tr>
         </thead>
 
@@ -63,30 +57,28 @@
                 foreach (UsuarioModel usuario in Model)
                 {
                     <tr>
-                        <th scope="row">@usuario.Id</th>
+                        <td>@usuario.Id</td>
                         <td>@usuario.Nome</td>
-                        <td>@usuario.Login</td>
                         <td>@usuario.Email</td>
+                        <td>@usuario.Login</td>
+                        <td>@usuario.Perfil</td>
+                        <td>@usuario.Senha</td>
                         <td>@usuario.DataCadastro</td>
-                        <td>@usuario.Celular</td>
-                        <td>@usuario.Rua</td>
-                        <td>@usuario.Numero</td>
-                        <td>@usuario.Bairro</td>
-                        <td>@usuario.Cidade</td>
-                        <td>@usuario.Estado</td>
-                        <td>@usuario.Cep</td>
+                        <td>@usuario.DataAtualizacao</td>
+
                         <td class="text-center">
-                            <div class="btn-group" role="group">
+                            <div class="btn-group">
                                 <a class="btn btn-primary"
-                                   asp-route-id="@usuario.Id"
-                                   asp-controller="Contato"
-                                   asp-action="Editar">
+                                   asp-controller="Usuario"
+                                   asp-action="Editar"
+                                   asp-route-id="@usuario.Id">
                                     Editar
                                 </a>
+
                                 <a class="btn btn-danger"
-                                   asp-route-id="@usuario.Id"
-                                   asp-controller="Contato"
-                                   asp-action="ApagarConfirmacao">
+                                   asp-controller="Usuario"
+                                   asp-action="ApagarConfirmacao"
+                                   asp-route-id="@usuario.Id">
                                     Apagar
                                 </a>
                             </div>

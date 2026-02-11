@@ -1,44 +1,87 @@
-html {
-  font-size: 14px;
-}
-
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
-}
-
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+    min-height: 100vh;
+
+    background: 
+        linear-gradient(135deg, rgba(37,99,235,0.4), rgba(147,197,253,0.4)),
+        url('/images/fundo-contatos.png');
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }
 
-.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
-  color: var(--bs-secondary-color);
-  text-align: end;
+
+
+/* ===== Layout principal ===== */
+.layout {
+    display: flex;
+    min-height: 100vh;
 }
 
-.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
-  text-align: start;
+/* ===== Sidebar ===== */
+.sidebar {
+    width: 250px;
+    background: linear-gradient(180deg, #60a5fa 0%, #93c5fd 100%);
+    color: #0f172a; /* texto escuro para destacar melhor */
+    padding: 25px 15px;
 }
 
-.field-validation-error {
-    color: red; 
+
+
+    .sidebar .logo {
+        margin-bottom: 30px;
+        font-size: 18px;
+    }
+
+    .sidebar a {
+        color: #0f172a;
+        font-weight: 500;
+        text-decoration: none;
+        display: block;
+        padding: 10px;
+        border-radius: 8px;
+    }
+
+        .sidebar a:hover {
+            background-color: rgba(0, 0, 0, 0.08);
+        }
+
+
+        .sidebar .nav-link:hover {
+            background-color: #2563eb;
+            color: white;
+        }
+
+/* ===== Conteúdo ===== */
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
 }
 
-.close-alert {
-    position:absolute;
-    right:-10px;
-    top:-15px;
-    border-radius: 15px;
-    width:30px;
-    height:31px;
+/* ===== Topbar ===== */
+.topbar {
+    background: white;
+    padding: 15px 20px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+/* ===== Área de conteúdo ===== */
+.content-area {
+    padding: 30px;
+}
+
+    /* ===== Card branco interno ===== */
+    .content-area > * {
+        background: white;
+        padding: 25px;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+
+/* ===== Tabela ===== */
+table {
+    width: 100%;
 }
