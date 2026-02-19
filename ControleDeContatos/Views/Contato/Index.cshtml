@@ -3,93 +3,108 @@
     ViewData["Title"] = "Listagem de Contatos";
 }
 
-<div class="container mt-4">
+<div class="container-fluid mt-4" style="max-width: 98%;">
 
-    <!-- Botão Adicionar -->
-    <a class="btn btn-primary mb-3"
-       asp-controller="Contato"
-       asp-action="Criar">
-        Adicionar novo contato
-    </a>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-secondary" style="font-weight: 500;">Listagem de Contatos</h2>
 
+        <a class="btn btn-primary shadow-sm"
+           asp-controller="Contato"
+           asp-action="Criar"
+           role="button">
+            <i class="bi bi-person-plus"></i> Adicionar novo contato
+        </a>
+    </div>
 
-    @if(TempData["MensagemSucesso"] != null)
+    @if (TempData["MensagemSucesso"] != null)
     {
-        <div class="alert alert-success" role="alert">
-            <button type="button" class="btn btn-danger btn-sm close-alert" arial-label="close">X</button>
+        <div class="alert alert-success alert-dismissible fade show shadow-sm" role="alert">
             @TempData["MensagemSucesso"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
-
     }
 
-    @if(TempData["MensagemErro"] != null)
-    {
-        <div class="alert alert-danger" role="alert">
-            <button type="button" class="btn btn-danger btn-sm close-alert" arial-label="close">X</button>
-            @TempData["MensagemErro"]
-        </div>
-       
-    }
+    <div class="table-responsive shadow p-3 mb-5 bg-white rounded">
+        <!-- REMOVIDO table-hover -->
+        <table class="table table-striped align-middle border-light" id="table-contatos" style="width:100%">
+            <thead class="table-light">
+                <tr>
+                    <th class="text-center">#</th>
+                    <th class="text-start ps-3">Nome</th>
+                    <th class="text-start ps-3">E-mail</th>
+                    <th class="text-center">Celular</th>
+                    <th class="text-center">Rua</th>
+                    <th class="text-center">Nº</th>
+                    <th class="text-center">Bairro</th>
+                    <th class="text-center">Cidade</th>
+                    <th class="text-center">Estado</th>
+                    <th class="text-center">CEP</th>
+                    <th class="text-center">Ações</th>
+                </tr>
+            </thead>
 
-    <br />
-
-    
-    <!-- Título -->
-    <h1 class="display-4 text-center mb-4">Listagem de Contatos</h1>
-
-    <!-- Tabela -->
-    <table class="table" id="table-contatos">
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>Nome</th>
-                <th>E-mail</th>
-                <th>Celular</th>
-                <th>Rua</th>
-                <th>Nº</th>
-                <th>Bairro</th>
-                <th>Cidade</th>
-                <th>Estado</th>
-                <th>CEP</th>
-                <th class="text-center">Ações</th>
-            </tr>
-        </thead>
-
-        <tbody>
-            @if (Model != null && Model.Any())
-            {
-                foreach (ContatoModel contato in Model)
+            <tbody>
+                @if (Model != null && Model.Any())
                 {
-                    <tr>
-                        <th scope="row">@contato.Id</th>
-                        <td>@contato.Nome</td>
-                        <td>@contato.Email</td>
-                        <td>@contato.Celular</td>
-                        <td>@contato.Rua</td>
-                        <td>@contato.Numero</td>
-                        <td>@contato.Bairro</td>
-                        <td>@contato.Cidade</td>
-                        <td>@contato.Estado</td>
-                        <td>@contato.Cep</td>
-                        <td class="text-center">
-                            <div class="btn-group" role="group">
-                                <a class="btn btn-primary"
-                                   asp-route-id="@contato.Id"
-                                   asp-controller="Contato"
-                                   asp-action="Editar">
-                                    Editar
-                                </a>
-                                <a class="btn btn-danger"
-                                   asp-route-id="@contato.Id"
-                                   asp-controller="Contato"
-                                   asp-action="ApagarConfirmacao">
-                                    Apagar
-                                </a>
-                            </div>
-                        </td>
-                    </tr>
+                    foreach (ContatoModel contato in Model)
+                    {
+                        <tr>
+                            <td class="text-center text-muted">@contato.Id</td>
+                            <td class="text-start ps-3">@contato.Nome</td>
+                            <td class="text-start ps-3 text-secondary">@contato.Email</td>
+                            <td class="text-center">@contato.Celular</td>
+                            <td class="text-center small">@contato.Rua</td>
+                            <td class="text-center">@contato.Numero</td>
+                            <td class="text-center small">@contato.Bairro</td>
+                            <td class="text-center">@contato.Cidade</td>
+                            <td class="text-center">@contato.Estado</td>
+                            <td class="text-center">@contato.Cep</td>
+                            <td class="text-center">
+                                <div class="btn-group shadow-sm">
+
+                                    <a class="btn btn-primary btn-sm"
+                                       asp-route-id="@contato.Id"
+                                       asp-controller="Contato"
+                                       asp-action="Editar">
+                                        Editar
+                                    </a>
+                                    <a class="btn btn-danger btn-sm"
+                                       asp-route-id="@contato.Id"
+                                       asp-controller="Contato"
+                                       asp-action="ApagarConfirmacao">
+                                        Apagar
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
                 }
-            }
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    </div>
 </div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#table-contatos').DataTable({
+                ordering: true,
+                paging: true,
+                searching: true,
+                responsive: true,
+                language: {
+                    lengthMenu: "Mostrar _MENU_ registros por página",
+                    zeroRecords: "Nada encontrado",
+                    info: "Mostrando _START_ até _END_ de _TOTAL_ registros",
+                    infoEmpty: "Nenhum registro disponível",
+                    infoFiltered: "(filtrado de _MAX_ registros no total)",
+                    search: "Pesquisar:",
+                    paginate: {
+                        previous: "Anterior",
+                        next: "Próximo"
+                    }
+                }
+            });
+        });
+    </script>
+}

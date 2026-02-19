@@ -1,6 +1,8 @@
 ﻿using ControleDeContatos.Models;
 using ControleDeContatos.Repositorio;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
 
 namespace ControleDeContatos.Controllers
 {
@@ -75,11 +77,11 @@ namespace ControleDeContatos.Controllers
                 return RedirectToAction("Index");
             }
         }
+
         [HttpPost]
         public IActionResult Editar(UsuarioSemSenhaModel usuarioSemSenhaModel)
         {
             try
-
             {
                 UsuarioModel usuario = null;
 
@@ -93,7 +95,7 @@ namespace ControleDeContatos.Controllers
                         Email = usuarioSemSenhaModel.Email,
                         Perfil = usuarioSemSenhaModel.Perfil,
                     };
-                    usuario = _usuarioRepositorio.Atualizar(usuario);   
+                    usuario = _usuarioRepositorio.Atualizar(usuario);
                     TempData["MensagemSucesso"] = "Usuário atualizado com sucesso";
                     return RedirectToAction("Index");
                 }
@@ -106,6 +108,7 @@ namespace ControleDeContatos.Controllers
                     $"Ops, não conseguimos atualizar seu usuário,tente novamente, Detalhe do erro: {erro.Message}";
                 return RedirectToAction("Index");
             }
+
         }
     }
 }

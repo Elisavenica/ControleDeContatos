@@ -1,55 +1,65 @@
 ﻿@using ControleDeContatos.Enums
 @model UsuarioModel
-
 @{
     ViewData["Title"] = "Criar usuário";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Cadastrar usuário</h1>
+@* 1. Container largo (95%) para preencher a página toda *@
+<div class="container-fluid mt-4" style="max-width: 95%;">
+
+    <div class="text-center mb-4">
+        @* 2. Título com a letra um pouco mais grossa (weight 500) conforme você pediu *@
+        <h3 class="text-secondary" style="font-weight: 500;">Cadastrar usuário</h3>
+        <p class="text-muted small">Preencha as informações do novo usuário do sistema</p>
+    </div>
+
+    @* 3. Formulário largo com shadow e borda superior *@
+    <form asp-controller="Usuario" asp-action="Criar" method="post" class="text-start shadow-sm p-5 rounded bg-white border-top border-primary border-3">
+
+        @* Campo Nome - Usando mb-3 para não ficar colado *@
+        <div class="mb-3">
+            <label class="form-label text-muted fw-normal">Nome</label>
+            <input type="text" asp-for="Nome" class="form-control" placeholder="Digite o nome do usuário" />
+            @* Linha que coloca o requisito obrigatório em vermelho *@
+            <span class="text-danger small">@Html.ValidationMessageFor(x => x.Nome)</span>
+        </div>
+
+        @* Campo E-mail *@
+        <div class="mb-3">
+            <label class="form-label text-muted fw-normal">E-mail</label>
+            <input type="email" asp-for="Email" class="form-control" placeholder="Digite o e-mail do usuário" />
+            <span class="text-danger small">@Html.ValidationMessageFor(x => x.Email)</span>
+        </div>
+
+        @* Campo Login *@
+        <div class="mb-3">
+            <label class="form-label text-muted fw-normal">Login</label>
+            <input type="text" asp-for="Login" class="form-control" placeholder="Digite o login de acesso" />
+            <span class="text-danger small">@Html.ValidationMessageFor(x => x.Login)</span>
+        </div>
+
+        @* Campo Perfil *@
+        <div class="mb-3">
+            <label class="form-label text-muted fw-normal">Perfil</label>
+            <select asp-for="Perfil" class="form-select">
+                <option value="">Selecione</option>
+                <option value="@PerfilEnum.Admin">Administrador</option>
+                <option value="@PerfilEnum.Padrao">Padrão</option>
+            </select>
+            <span class="text-danger small">@Html.ValidationMessageFor(x => x.Perfil)</span>
+        </div>
+
+        @* Campo Senha *@
+        <div class="mb-4">
+            <label class="form-label text-muted fw-normal">Senha</label>
+            <input asp-for="Senha" type="password" class="form-control" placeholder="Crie uma senha forte" />
+            <span class="text-danger small">@Html.ValidationMessageFor(x => x.Senha)</span>
+        </div>
+
+        @* Botões de ação largos *@
+        <div class="d-grid gap-3 mt-5">
+            <button type="submit" class="btn btn-primary btn-lg shadow-sm">Adicionar Usuário</button>
+            <a class="btn btn-link text-decoration-none text-secondary" asp-controller="Usuario" asp-action="Index">Voltar para a Listagem</a>
+        </div>
+    </form>
 </div>
-
-<form asp-controller="Usuario" asp-action="Criar" method="post">
-
-    <div class="form-group">
-        <label class="form-label">Nome</label>
-        <input asp-for="Nome" class="form-control" />
-        <span asp-validation-for="Nome" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label class="form-label">E-mail</label>
-        <input asp-for="Email" class="form-control" />
-        <span asp-validation-for="Email" class="text-danger"></span>
-        @Html.ValidationMessageFor(x => x.Email)
-    </div>
-
-    <div class="form-group">
-        <label class="form-label">Login</label>
-        <input asp-for="Login" class="form-control" />
-        <span asp-validation-for="Login" class="text-danger"></span>
-        @Html.ValidationMessageFor(x   => x.Login)
-    </div>
-
-    <div class="form-group">
-        <label class="form-label">Perfil</label>
-        <select asp-for="Perfil" class="form-control">
-            <option value="">Selecione</option>
-            <option value="@PerfilEnum.Admin">Administrador</option>
-            <option value="@PerfilEnum.Padrao">Padrão</option>
-            @Html.ValidationMessageFor(x => x.Perfil)
-        </select>
-    </div>
-
-    <div class="form-group">
-        <label class="form-label">Senha</label>
-        <input asp-for="Senha" type="password" class="form-control" />
-        <span asp-validation-for="Senha" class="text-danger"></span>
-    </div>
-
-    <hr />
-
-    <button type="submit" class="btn btn-primary">Adicionar</button>
-    <a class="btn btn-secondary" asp-controller="Usuario" asp-action="Index">Voltar</a>
-
-</form>

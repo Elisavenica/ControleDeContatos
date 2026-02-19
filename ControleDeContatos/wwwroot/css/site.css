@@ -85,3 +85,87 @@ body {
 table {
     width: 100%;
 }
+/* Diminuir tamanho da paginação */
+.dataTables_wrapper .pagination .page-link {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.8rem;
+}
+/* Descer a paginação */
+.dataTables_wrapper .dataTables_paginate {
+    margin-top: 25px;
+
+}
+.page-item.active .page-link {
+    background-color: #93c5fd;
+    border-color: #93c5fd;
+    color: #1e3a8a;
+}
+
+#table-contatos tbody tr:hover {
+    background-color: #f8f9fa !important;
+}
+/* Remove escurecimento forte */
+#tabelaUsuarios tbody tr:hover {
+    background-color: #f8f9fa !important;
+}
+
+/* Listras suaves */
+#tabelaUsuarios tbody tr:nth-child(even) {
+    background-color: #fbfbfb;
+}
+/* Remove escurecimento forte */
+#tabelaUsuarios tbody tr:hover {
+    background-color: #f8f9fa !important;
+}
+
+/* Listras suaves */
+#tabelaUsuarios tbody tr:nth-child(even) {
+    background-color: #fbfbfb;
+}
+
+/* Texto da tabela (nomes, números, etc) */
+table.dataTable tbody td {
+    color: #111 !important;
+}
+
+    /* E-mails (links normais, NÃO botões) */
+    table.dataTable tbody td a:not(.btn),
+    table.dataTable tbody td a[href^="mailto"] {
+        color: #111 !important;
+        text-decoration: none;
+    }
+
+    /* Remove qualquer classe cinza aplicada pelo Bootstrap */
+    table.dataTable tbody td .text-muted {
+        color: #111 !important;
+    }
+
+    /* Mantém botões com texto branco */
+    table.dataTable tbody td a.btn {
+        color: #fff !important;
+    }
+.content-area h1,
+.content-area h2 {
+    color: #111 !important;
+}
+/* Cabeçalho da tabela – azul bem clarinho */
+table.dataTable thead th {
+    background-color: #eaf2ff !important; /* azul bem clarinho */
+    color: #0f172a !important; /* texto escuro */
+    font-weight: 600;
+    border-bottom: none !important;
+}
+
+    /* Mantém a cor mesmo ao ordenar */
+    table.dataTable thead th.sorting,
+    table.dataTable thead th.sorting_asc,
+    table.dataTable thead th.sorting_desc {
+        background-color: #eaf2ff !important;
+        color: #0f172a !important;
+    }
+/* Listagem de contatos em tela cheia */
+.listagem-contatos {
+    max-width: 100% !important;
+    width: 100%;
+    margin: 0; /* remove centralização */
+}
