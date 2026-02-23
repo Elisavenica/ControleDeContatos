@@ -56,9 +56,18 @@
                         </td>
 
                         <td class="text-center">
-                            <span class="badge bg-secondary">
-                                Admin
-                            </span>
+                            @if (usuario.Perfil == ControleDeContatos.Enums.PerfilEnum.Administrador)
+                            {
+                                <span class="badge bg-danger">
+                                    Administrador
+                                </span>
+                            }
+                            else if (usuario.Perfil == ControleDeContatos.Enums.PerfilEnum.Padrao)
+                            {
+                                <span class="badge bg-primary">
+                                    Padrão
+                                </span>
+                            }
                         </td>
 
                         <td class="text-center">

@@ -1,11 +1,11 @@
 ﻿@using ControleDeContatos.Enums
-@using System
 @model UsuarioModel
+
 @{
     ViewData["Title"] = "Editar Usuário";
 }
 
-<div class="text-center">
+<div class="text-center mb-4">
     <h1 class="display-4">Editar Usuário</h1>
 </div>
 
@@ -13,38 +13,34 @@
 
     <input type="hidden" asp-for="Id" />
 
-    <div class="form-group">
+    <div class="form-group mb-3">
         <label>Nome</label>
         <input asp-for="Nome" class="form-control" />
         @Html.ValidationMessageFor(x => x.Nome)
     </div>
 
-    <div class="form-group">
+    <div class="form-group mb-3">
         <label>Email</label>
         <input asp-for="Email" class="form-control" />
         @Html.ValidationMessageFor(x => x.Email)
     </div>
 
-    <div class="form-group">
+    <div class="form-group mb-3">
         <label>Login</label>
         <input asp-for="Login" class="form-control" />
         @Html.ValidationMessageFor(x => x.Login)
     </div>
 
-   <div class="form-group">
-       <label for="nome" class="form-label">Perfil</label>
-       <select asp-for="Perfil" class="form-control">
+    <div class="form-group mb-4">
+        <label>Perfil</label>
+        <select asp-for="Perfil"
+                class="form-control"
+                asp-items="Html.GetEnumSelectList<PerfilEnum>()">
             <option value="">Selecione</option>
-            @foreach (var perfil in Enum.GetValues(typeof(PerfilEnum)))
-            {
-                <option value="@(perfil)">@perfil</option>
-            }
         </select>
-        @Html.ValidationMessageFor(x => x.Perfil)               
-   </div>
-
+        @Html.ValidationMessageFor(x => x.Perfil)
+    </div>
 
     <button type="submit" class="btn btn-primary">Editar</button>
-    <a class="btn btn-secondary" asp-controller="Usuario" asp-action="Index">Voltar</a>
-
+    <a asp-controller="Usuario" asp-action="Index" class="btn btn-secondary">Voltar</a>
 </form>

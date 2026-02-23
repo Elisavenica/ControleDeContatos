@@ -20,11 +20,6 @@ namespace ControleDeContatos.Controllers
             return View(usuarios);
         }
 
-        public IActionResult Criar()
-        {
-            return View();
-        }
-
         public IActionResult Editar(int id)
         {
             UsuarioModel usuario = _usuarioRepositorio.BuscarPorId(id);
@@ -53,18 +48,20 @@ namespace ControleDeContatos.Controllers
             }
         }
 
-
-
         [HttpPost]
         public IActionResult Criar(UsuarioModel usuario)
         {
             try
             {
+                if (usuario.Perfil == 0)
+                {
+                    ModelState.AddModelError("Perfil", "Selecione um perfil válido");
+                }
+
                 if (ModelState.IsValid)
                 {
-                    usuario = _usuarioRepositorio.Adicionar(usuario);
-
-                    TempData["MensagemSucesso"] = "usuário cadastrado com sucesso";
+                    _usuarioRepositorio.Adicionar(usuario);
+                    TempData["MensagemSucesso"] = "Usuário cadastrado com sucesso";
                     return RedirectToAction("Index");
                 }
 
@@ -83,32 +80,35 @@ namespace ControleDeContatos.Controllers
         {
             try
             {
-                UsuarioModel usuario = null;
+                if (usuarioSemSenhaModel.Perfil == 0)
+                {
+                    ModelState.AddModelError("Perfil", "Selecione um perfil válido");
+                }
 
                 if (ModelState.IsValid)
                 {
-                    usuario = new UsuarioModel()
+                    UsuarioModel usuario = new UsuarioModel()
                     {
                         Id = usuarioSemSenhaModel.Id,
                         Nome = usuarioSemSenhaModel.Nome,
                         Login = usuarioSemSenhaModel.Login,
                         Email = usuarioSemSenhaModel.Email,
-                        Perfil = usuarioSemSenhaModel.Perfil,
+                        Perfil = (Enums.PerfilEnum)usuarioSemSenhaModel.Perfil
                     };
-                    usuario = _usuarioRepositorio.Atualizar(usuario);
+
+                    _usuarioRepositorio.Atualizar(usuario);
                     TempData["MensagemSucesso"] = "Usuário atualizado com sucesso";
                     return RedirectToAction("Index");
                 }
 
-                return View("Editar", usuario);
+                return View("Editar", usuarioSemSenhaModel);
             }
-            catch (System.Exception erro)
+            catch (Exception erro)
             {
                 TempData["MensagemErro"] =
-                    $"Ops, não conseguimos atualizar seu usuário,tente novamente, Detalhe do erro: {erro.Message}";
+                    $"Ops, não conseguimos atualizar o usuário. Detalhe: {erro.Message}";
                 return RedirectToAction("Index");
             }
-
         }
     }
 }
