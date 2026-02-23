@@ -169,3 +169,9 @@ table.dataTable thead th {
     width: 100%;
     margin: 0; /* remove centralização */
 }
+.card-full {
+    overflow-x: auto;
+}
+table.table-hover tbody tr:hover {
+    background-color: #ffffff;
+}

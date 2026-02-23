@@ -1,4 +1,5 @@
 ﻿@using ControleDeContatos.Enums
+@using System
 @model UsuarioModel
 @{
     ViewData["Title"] = "Editar Usuário";
@@ -33,11 +34,13 @@
    <div class="form-group">
        <label for="nome" class="form-label">Perfil</label>
        <select asp-for="Perfil" class="form-control">
-       <option value="">Selecione</option>
-       <option value="@PerfilEnum.Admin" >Administrador</option>
-       <option value="@PerfilEnum.Padrao" >Administrador</option>
+            <option value="">Selecione</option>
+            @foreach (var perfil in Enum.GetValues(typeof(PerfilEnum)))
+            {
+                <option value="@(perfil)">@perfil</option>
+            }
         </select>
-        @Html.ValidationMessageFor(x => x.Perfil)
+        @Html.ValidationMessageFor(x => x.Perfil)               
    </div>
 
 
