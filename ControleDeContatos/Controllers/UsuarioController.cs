@@ -74,7 +74,10 @@ namespace ControleDeContatos.Controllers
                 return RedirectToAction("Index");
             }
         }
-
+        public IActionResult Criar()
+        {
+            return View();
+        }
         [HttpPost]
         public IActionResult Editar(UsuarioSemSenhaModel usuarioSemSenhaModel)
         {

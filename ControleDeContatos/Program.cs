@@ -29,7 +29,7 @@ app.MapStaticAssets();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Contato}/{action=Index}/{id?}");
+    pattern: "{controller=Login}/{action=Index}/{id?}");
     
 
 
