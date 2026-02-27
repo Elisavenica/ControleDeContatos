@@ -1,5 +1,6 @@
 ﻿using ControleDeContatos.Models;
 using Microsoft.AspNetCore.Mvc;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace ControleDeContatos.Controllers
 {
@@ -17,7 +18,12 @@ namespace ControleDeContatos.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    return RedirectToAction("Index", "Home");
+                    if (loginModel.Login == "adm" && loginModel.Senha == "123")
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
+
+                    TempData["MensagemErro"] = $"Usuário e/ou senha inválido(s). por favor, tente novamente.";
                 }
                 return View("Index");
 
