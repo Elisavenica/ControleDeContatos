@@ -22,4 +22,9 @@ public class UsuarioModel
     public string Senha { get; set; }
     public DateTime DataCadastro { get; internal set; }
     public DateTime DataAtualizacao { get; internal set; }
+    public bool SenhaValida (string senha)
+    {
+        return Senha == senha;
+    }
+
 }

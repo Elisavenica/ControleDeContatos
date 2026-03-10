@@ -14,6 +14,11 @@ public class UsuarioRepositorio : IUsuarioRepositorio
         _context = bancoContext;
     }
 
+    public UsuarioModel BuscarPorLogin(string login)
+    {
+       return _context.Usuarios.FirstOrDefault(x => x.Login.ToUpper() == login.ToUpper());  
+
+    }
     public UsuarioModel BuscarPorId(int id)
     {
         return _context.Usuarios.FirstOrDefault(x => x.Id == id);
@@ -71,5 +76,7 @@ public class UsuarioRepositorio : IUsuarioRepositorio
     {
         throw new NotImplementedException();
     }
+
+    
 }
 

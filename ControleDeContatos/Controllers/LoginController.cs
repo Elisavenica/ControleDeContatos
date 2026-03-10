@@ -1,14 +1,32 @@
-﻿using ControleDeContatos.Models;
+﻿using ControleDeContatos.Helper;
+using ControleDeContatos.Models;
 using Microsoft.AspNetCore.Mvc;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace ControleDeContatos.Controllers
 {
     public class LoginController : Controller
     {
+        private readonly IUsuarioRepositorio _usuarioRepositorio;
+        private readonly ISessao _sessao;
+        public LoginController(IUsuarioRepositorio usuarioRepositorio,
+            ISessao sessao)
+        {
+            _usuarioRepositorio = usuarioRepositorio;
+            _sessao = sessao;
+        }
+
         public IActionResult Index()
         {
+            //Se isiario estiver logado, redirecionar para a home
+            if(_sessao.BuscarSessaoDoUsuario() !=null) return RedirectToAction("Index", "Home");
+
             return View();
+        }
+
+        public IActionResult Sair()
+        {
+            _sessao.RemoverSessaoDoUsuario();
+            return RedirectToAction("Index", "Login");
         }
 
         [HttpPost]
@@ -18,21 +36,28 @@ namespace ControleDeContatos.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    if (loginModel.Login == "adm" && loginModel.Senha == "123")
+                    UsuarioModel usuario = _usuarioRepositorio.BuscarPorLogin(loginModel.Login);
+
+                    // Se usuário não existir OU senha estiver errada
+                    if (usuario == null || !usuario.SenhaValida(loginModel.Senha))
                     {
-                        return RedirectToAction("Index", "Home");
+                        _sessao.CriarSessaoDoUsuario(usuario);
+                        ModelState.AddModelError("", "Usuário ou senha inválidos.");
+                        return View("Index");
                     }
 
-                    TempData["MensagemErro"] = $"Usuário e/ou senha inválido(s). por favor, tente novamente.";
+                    // Login correto
+                    return RedirectToAction("Index", "Home");
                 }
-                return View("Index");
 
+                return View("Index");
             }
             catch (Exception erro)
             {
-                TempData["MensagemErro"] = $"Ops, não conseguimos realizar seu login, tente novamente, detalhe do erro: {erro.Message}";
-                return RedirectToAction("Index");
+                ModelState.AddModelError("", $"Erro ao realizar login: {erro.Message}");
+                return View("Index");
             }
         }
     }
+    
 }
