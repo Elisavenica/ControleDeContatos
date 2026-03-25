@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Storage.Json;
+﻿using ControleDeContatos.Models;
+using Microsoft.EntityFrameworkCore.Storage.Json;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
