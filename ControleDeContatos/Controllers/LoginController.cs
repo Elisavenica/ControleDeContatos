@@ -41,13 +41,16 @@ namespace ControleDeContatos.Controllers
                     // Se usuário não existir OU senha estiver errada
                     if (usuario == null || !usuario.SenhaValida(loginModel.Senha))
                     {
-                        _sessao.CriarSessaoDoUsuario(usuario);
                         ModelState.AddModelError("", "Usuário ou senha inválidos.");
                         return View("Index");
                     }
 
-                    // Login correto
+                    // ✅ Aqui sim cria a sessão (login correto)
+                    _sessao.CriarSessaoDoUsuario(usuario);
+
                     return RedirectToAction("Index", "Home");
+
+                 ;
                 }
 
                 return View("Index");
