@@ -1,5 +1,22 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
+  <!--
+  Plano (pseudocódigo detalhado) para resolver NU1904:
+  1. Identificar que a vulnerabilidade vem do pacote 'System.Drawing.Common' versão 4.5.1 (possivelmente transitivo).
+  2. Forçar uma versão segura do pacote adicionando um PackageReference explícito com versão atualizada.
+     - Isso sobrescreve a dependência transitiva vulnerável durante a resolução de pacotes.
+  3. Se a aplicação não precisa de System.Drawing em plataformas não-Windows, considerar:
+     - Substituir pelo ImageSharp (SixLabors.ImageSharp) ou SkiaSharp e adaptar o código que usa System.Drawing.
+     - Ou garantir que a aplicação rode apenas em Windows (definir RuntimeIdentifier/RuntimeIdentifiers adequados), pois desde .NET 6 o comportamento de System.Drawing é Windows-only.
+  4. Após a alteração:
+     - Executar `dotnet restore` e `dotnet list package –vulnerable` para verificar se a vulnerabilidade foi resolvida.
+     - Testar código que usa geração de imagens/QRCoder para garantir compatibilidade com a nova versão.
+  5. Se a dependência vulnerável for trazida por um pacote específico (ex: QRCoderNetCore), considerar:
+     - Atualizar ou trocar esse pacote por uma versão que não dependa da versão vulnerável,
+     - Ou aplicar a substituição (binding) via PackageReference explícito conforme feito abaixo.
+  Observação: este arquivo adiciona uma referência explícita a System.Drawing.Common versão segura (7.0.0).
+  -->
+
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
@@ -8,7 +25,7 @@
 
   <ItemGroup>
     <Compile Remove="NovaPasta1\**" />
-    <Compile Remove="NovaPasta2\**" />
+    <Compile Remove="NovaPasta2\**" />              
     <Compile Remove="NovaPasta\**" />
     <Content Remove="NovaPasta1\**" />
     <Content Remove="NovaPasta2\**" />
@@ -45,6 +62,8 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="QRCoderNetCore" Version="1.0.0" />
+    <!-- Força uma versão segura de System.Drawing.Common para mitigar NU1904 -->
+    <PackageReference Include="System.Drawing.Common" Version="7.0.0" />
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="https://www.schemastore.org/azure-devops-extension-manifest-1.0.json" /></VisualStudio></ProjectExtensions>
