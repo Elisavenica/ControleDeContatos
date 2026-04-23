@@ -1,4 +1,5 @@
 ﻿using ControleDeContatos.Enums;
+using ControleDeContatos.Helper;
 using System.ComponentModel.DataAnnotations;
 
 public class UsuarioModel
@@ -24,7 +25,16 @@ public class UsuarioModel
     public DateTime DataAtualizacao { get; internal set; }
     public bool SenhaValida (string senha)
     {
-        return Senha == senha;
+        return Senha == senha.GerarHash();
     }
 
+    public void SetSenhaHash()
+    {
+        Senha = Senha.GerarHash();
+    }
+
+    internal string GerarNovaSenha()
+    {
+        throw new NotImplementedException();
+    }
 }

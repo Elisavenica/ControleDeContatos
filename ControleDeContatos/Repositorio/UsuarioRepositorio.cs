@@ -16,7 +16,7 @@ public class UsuarioRepositorio : IUsuarioRepositorio
 
     public UsuarioModel BuscarPorLogin(string login)
     {
-       return _context.Usuarios.FirstOrDefault(x => x.Login.ToUpper() == login.ToUpper());  
+        return _context.Usuarios.FirstOrDefault(x => x.Login.ToUpper() == login.ToUpper());
 
     }
     public UsuarioModel BuscarPorId(int id)
@@ -32,6 +32,7 @@ public class UsuarioRepositorio : IUsuarioRepositorio
     public UsuarioModel Adicionar(UsuarioModel usuario)
     {
         usuario.DataCadastro = DateTime.Now;
+        usuario.SetSenhaHash();
         usuario.DataAtualizacao = DateTime.Now;
 
         _context.Usuarios.Add(usuario);
@@ -72,11 +73,13 @@ public class UsuarioRepositorio : IUsuarioRepositorio
         return usuarioDB;
     }
 
-    public UsuarioModel BuscarPorId(object id)
-    {
-        throw new NotImplementedException();
-    }
 
+    public UsuarioModel BuscarPorEmailELogin(string email, string login)
+    {
+        return _context.Usuarios
+            .FirstOrDefault(x => x.Email.ToUpper() == email.ToUpper()
+                              && x.Login.ToUpper() == login.ToUpper());
     
+    }
 }
 

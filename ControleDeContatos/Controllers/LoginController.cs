@@ -1,6 +1,7 @@
 ﻿using ControleDeContatos.Helper;
 using ControleDeContatos.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Net.Mail;
 
 namespace ControleDeContatos.Controllers
 {
@@ -8,8 +9,8 @@ namespace ControleDeContatos.Controllers
     {
         private readonly IUsuarioRepositorio _usuarioRepositorio;
         private readonly ISessao _sessao;
-        public LoginController(IUsuarioRepositorio usuarioRepositorio,
-            ISessao sessao)
+
+        public LoginController(IUsuarioRepositorio usuarioRepositorio, ISessao sessao)
         {
             _usuarioRepositorio = usuarioRepositorio;
             _sessao = sessao;
@@ -17,9 +18,15 @@ namespace ControleDeContatos.Controllers
 
         public IActionResult Index()
         {
-            //Se isiario estiver logado, redirecionar para a home
-            if(_sessao.BuscarSessaoDoUsuario() !=null) return RedirectToAction("Index", "Home");
+            // Se usuário estiver logado, redireciona para Home
+            if (_sessao.BuscarSessaoDoUsuario() != null)
+                return RedirectToAction("Index", "Home");
 
+            return View();
+        }
+
+        public IActionResult RedefinirSenha()
+        {
             return View();
         }
 
@@ -38,19 +45,15 @@ namespace ControleDeContatos.Controllers
                 {
                     UsuarioModel usuario = _usuarioRepositorio.BuscarPorLogin(loginModel.Login);
 
-                    // Se usuário não existir OU senha estiver errada
                     if (usuario == null || !usuario.SenhaValida(loginModel.Senha))
                     {
                         ModelState.AddModelError("", "Usuário ou senha inválidos.");
                         return View("Index");
                     }
 
-                    // ✅ Aqui sim cria a sessão (login correto)
                     _sessao.CriarSessaoDoUsuario(usuario);
 
                     return RedirectToAction("Index", "Home");
-
-                 ;
                 }
 
                 return View("Index");
@@ -61,6 +64,38 @@ namespace ControleDeContatos.Controllers
                 return View("Index");
             }
         }
+
+        [HttpPost]
+        public IActionResult EnviarLinkParaRedefinirSenha(RedefinirSenhaModel redefinirSenhaModel)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    UsuarioModel usuario = _usuarioRepositorio.BuscarPorEmailELogin(
+                        redefinirSenhaModel.Email,
+                        redefinirSenhaModel.Login
+                    );
+
+                    if (usuario != null)
+                    {
+                        string novaSenha = usuario.GerarNovaSenha();
+                        _usuarioRepositorio.Atualizar(usuario);
+
+                        // Aqui você pode gerar nova senha e enviar email futuramente
+                        TempData["MensagemSucesso"] = "Enviamos para seu e-mail cadastrado uma nova senha.";
+                        return RedirectToAction("Index", "Login");
+                    }
+                }
+
+                TempData["MensagemErro"] = "Não conseguimos redefinir sua senha. Verifique os dados informados.";
+                return View("Index");
+            }
+            catch (Exception erro)
+            {
+                TempData["MensagemErro"] = $"Erro ao redefinir senha: {erro.Message}";
+                return View("Index");
+            }
+        }
     }
-    
 }
